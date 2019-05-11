@@ -13,7 +13,7 @@
 #include <sys/shm.h>
 #include <dirent.h>
 
-char *queue[];
+char *queue[1000];
 int k, pstats, input;
 
 //thread 1
