@@ -50,6 +50,7 @@ void* kbhit(void *arg){
 //thread 2
 void *menu(void *arg){
 	while(1){
+		system("clear");
 		printf("Now Playing : %s", queue[k]);
 		printf("1. Previous : Press 4\n", queue[k-1]);
 		printf("2. Next : Press 2\n", queue[k+1]);
@@ -58,13 +59,14 @@ void *menu(void *arg){
 		case 1:
 			pstats=1;
 			k--;
+			if(k<0) k=sizeof(queue)/sizeof(queue[0]);
 		break;
 		case 2:
 			pstats=1;
 			k++;
 		break;
 		case 3:
-			system("PAUSE");
+			system("pause");
 		break;
 		case 4:
 			exit(0);
