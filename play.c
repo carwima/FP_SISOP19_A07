@@ -14,7 +14,7 @@
 #include <dirent.h>
 
 char *queue[];
-int k, pstats;
+int k, pstats, input;
 
 //thread 1
 void* kbhit(void *arg){
