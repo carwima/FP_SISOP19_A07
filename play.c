@@ -15,6 +15,7 @@
 char *queue[];
 int k;
 
+//thread 1
 void* kbhit(void *arg){
     static struct termios oldt, newt;
     tcgetattr( STDIN_FILENO, &oldt);
@@ -36,9 +37,6 @@ void* kbhit(void *arg){
 			case '4':
 				input = 4;
 				break;
-			case '5':
-				input = 5;
-				break;
 			default:
 				input = 0;
 				break;
@@ -48,15 +46,31 @@ void* kbhit(void *arg){
     tcsetattr( STDIN_FILENO, TCSANOW, &oldt);
 }
 
+//thread 2
 void *menu(void *arg){
-  while(1){
-    printf("Now Playing : %s", queue[k]);
-    printf("Previous : Press 4\n", queue[k-1]);
-    printf("Next : Press 2\n", queue[k+1]);
-    printf("Pause : Press 3\n");
-  }
+	while(1){
+		printf("Now Playing : %s", queue[k]);
+		printf("Previous : Press 4\n", queue[k-1]);
+		printf("Next : Press 2\n", queue[k+1]);
+		printf("Pause : Press 3\n");
+		switch(input){
+		case 1:
+			
+		break;
+		case 2:
+			
+		break;
+		case 3:
+			
+		break;
+		case 4:
+			exit(0);
+		break;
+		}
+	}
 }
 
+//thread 3
 void *play(void *arg){
   while(1){
     if(pflag!=1) continue;
@@ -111,14 +125,19 @@ void *play(void *arg){
     }
   }
 }
+
+//thread 4
 void *pause(){
   while(1){
     
   }
 }
+
+//thread 5
 void *dir_to_queue(){
   
 }
+
 int main(int argc, char *argv[])
 {
     dir_to_queue(){
