@@ -2,6 +2,8 @@
 
 Final Project - MP3 Player
 
+jika anda asdos dan membaca ini, tolong saya, saya mengerjakan fp ini sendiri.
+
 Cara kerja play.c :
 1. Proses akan menampilkan pesan mengenai lagu yang sedang, akan, dan belum dimainkan.
 2. Proses dapat melakukan pause.
