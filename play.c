@@ -5,8 +5,8 @@
 #include <string.h>
 #include <pthread.h>
 #include <stdlib.h>
-#include <termios.h>            //termios, TCSANOW, ECHO, ICANON
-#include <unistd.h>     //STDIN_FILENO
+#include <termios.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/ipc.h>
