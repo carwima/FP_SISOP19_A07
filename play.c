@@ -14,7 +14,7 @@
 #include <dirent.h>
 
 char *queue[1000];
-int k, pstats, input;
+int k, pstats, input, total;
 
 //thread 1
 void* kbhit(void *arg){
@@ -59,7 +59,7 @@ void *menu(void *arg){
 		case 1:
 			pstats=1;
 			k--;
-			if(k<0) k=sizeof(queue)/sizeof(queue[0]);
+			if(k<0) k=total;
 		break;
 		case 2:
 			pstats=1;
@@ -141,6 +141,8 @@ void dir_to_queue(){
 			k++;
 		}
 	      }
+	      total=k-1;
+	      k=0;
 	      closedir(dir);
 	}
 }
