@@ -444,7 +444,7 @@ void pindah_mp3(){
 					char path[1000]; 
 					strcpy(path, "/home/carwima/");
 					strcat(path, ent->d_name); 
-//					printf("%s\n",path);
+					printf("%s\n",path);
 					rename(late,path);
 				  }
 			}
