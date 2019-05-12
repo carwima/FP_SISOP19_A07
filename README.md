@@ -18,3 +18,4 @@ Cara kerja fuse mp3.c :
 Kelemahan : 
 1. file system memindahkan file berekstensi .mp3 ke root
 Alasan : File system mungkin menyediakan buffer untuk alamat asli dari file, sehingga tidak perlu dipindahkan, tetapi tim kami mengalami kesulitan dalam fuse.
+2. jika terdapat file system yang memungkinkan loop infinite, fuse bisa gagal.
