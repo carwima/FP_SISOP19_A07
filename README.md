@@ -1,7 +1,7 @@
 # FP_SISOP19_A07
 
 Final Project - MP3 Player
-<br>BY GOD, I SWEAR IF YOU COPY THIS, I'LL FKIN TELL THE ASDOS TO GIVE YOU BIG 0.
+<br>BY GOD, I SWEAR IF YOU COPY THIS, I'LL TELL THE ASDOS TO GIVE YOU BIG 0.
 
 Cara kerja play.c :
 1. Proses akan menampilkan pesan mengenai lagu yang sedang, akan, dan belum dimainkan.
@@ -14,9 +14,4 @@ Cara kerja play.c :
 Cara kerja fuse mp3.c :
 1. file system akan memindahkan semua file reguler berekstensi ".mp3" ke root.
 2. file system tidak akan menampilkan file selain file berekstensi ".mp3"
-3. file system menyediakan fitur read, atribut, list.
-
-Kelemahan : 
-1. file system memindahkan file berekstensi .mp3 ke root
-Alasan : File system mungkin menyediakan buffer untuk alamat asli dari file, sehingga tidak perlu dipindahkan, tetapi tim kami mengalami kesulitan dalam fuse.
-2. jika terdapat file system yang memungkinkan loop infinite, fuse bisa gagal.
+3. file system menyediakan fitur dasar
