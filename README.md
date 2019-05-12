@@ -1,6 +1,7 @@
 # FP_SISOP19_A07
 
 Final Project - MP3 Player
+BY GOD, I SWEAR IF YOU COPY THIS, I'LL FKIN TELL THE ASDOS TO GIVE YOU BIG 0.
 
 Cara kerja play.c :
 1. Proses akan menampilkan pesan mengenai lagu yang sedang, akan, dan belum dimainkan.
