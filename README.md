@@ -15,4 +15,4 @@ Cara kerja fuse mp3.c :
 2. file system tidak akan menampilkan file selain file berekstensi ".mp3"
 3. file system menyediakan fitur dasar
 
-*i know we're all frustated, but i at very least, you have team.
+*i know we're all frustated, but at very least, you have team.
