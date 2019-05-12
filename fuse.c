@@ -93,12 +93,18 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 		return -errno;
 
 	while ((de = readdir(dp)) != NULL) {
-		if(strcmp(de->d_name,".")!=0 && strcmp(de->d_name,"..")!=0){
+		if(strcmp(de->d_name,".")!=0 && strcmp(de->d_name,"..")!=0 && de->d_type==DT_REG){
 			struct stat st;
 			memset(&st, 0, sizeof(st));
 			st.st_ino = de->d_ino;
 			st.st_mode = de->d_type << 12;
-			if(de->d_type!=DT_REG) continue;
+
+			char late[1000];
+			strcpy(late,de->d_name);
+			int len = strlen(late);
+			const char *ext = &late[len-4];
+			if(strncmp(ext,".mp3",4)!=0) continue;
+
 			if (filler(buf, de->d_name, &st, 0))
 				break;
 		}
@@ -392,6 +398,7 @@ struct queue{
 };
 
 struct queue stack[1000000];
+
 int front=0;
 int isi=0;
 
@@ -405,20 +412,16 @@ void pop(){
 	isi--;
 }
 
-int isEmpty(){
-	if(stack[front].file==NULL) return 1;
-}
-
 char starting_array[1000]="/home/carwima/";
 
 void pindah_mp3(){
 	push(starting_array);
-	while(!isEmpty()){
+	while(1){
+		if(strcmp(stack[front].file,"")==0) 
+			break;
 		DIR *dir;
-		printf("%s\n",stack[front].file);
 		struct dirent *ent;
 		dir = opendir(stack[front].file);
-
 		if (dir == NULL){
 			pop();
 			continue;	
@@ -426,41 +429,52 @@ void pindah_mp3(){
 
 		while((ent = readdir(dir)) != NULL) {
 		      if(strcmp(ent->d_name,".")!=0 && strcmp(ent->d_name,"..")!=0){
-			 if(ent->d_type==DT_REG){
-				  if(strncmp(ent->d_name,".mp3",4)==0){
-					char others[1000];
-					strcpy(others, stack[front].file);
-					strcat(others, ent->d_name);				
-					char path[1000];
+
+			char late[1000];
+			strcpy(late, stack[front].file);
+			strcat(late, "/");
+			strcat(late, ent->d_name);
+
+			if(ent->d_type==DT_REG){
+
+				int len = strlen(late);
+				const char *ext = &late[len-4]; 
+
+				  if(strncmp(ext,".mp3",4)==0){				
+					char path[1000]; 
 					strcpy(path, "/home/carwima/");
-					strcat(path, ent->d_name);
-//					printf("%s\n",path);;
-					rename(others,path);
+					strcat(path, ent->d_name); 
+//					printf("%s\n",path);
+					rename(late,path);
 				  }
 			}
 			else {
 				char others[1000];
+
+				char nama[1000];
+				strcpy(nama,ent->d_name);
+
+				const char *ext = &nama[0];
+				if(strncmp(ext,".",1)==0) continue;
+
 				strcpy(others, stack[front].file);
-				strcat(others, ent->d_name);
 				strcat(others, "/");
-				
+				strcat(others, ent->d_name);
 				push(others);
 			}
 		     }
 		}
 		closedir(dir);
 		pop();
-
 	}
 }
-
+/*
 void* xmp_init(struct fuse_conn_info *conn){
-	pindah_mp3();
 	return 0;
-}
+} */
 
 static struct fuse_operations xmp_oper = {
-	.init		= xmp_init,
+//	.init		= xmp_init,
 	.getattr	= xmp_getattr,
 	.access		= xmp_access,
 	.readlink	= xmp_readlink,
@@ -487,6 +501,7 @@ static struct fuse_operations xmp_oper = {
 
 int main(int argc, char *argv[])
 {
+	pindah_mp3();
 	umask(0);
 	return fuse_main(argc, argv, &xmp_oper, NULL);
 }
