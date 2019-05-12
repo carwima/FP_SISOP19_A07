@@ -7,9 +7,8 @@ Cara kerja play.c :
 1. Proses akan menampilkan pesan mengenai lagu yang sedang, akan, dan belum dimainkan.
 2. Proses dapat melakukan pause.
 3. Proses dapat memainkan lagu mp3.
-4. Proses dapat meembaca keyboard sebagai input, 1. Previous, 2. Next, 3. Pause
-5. Pause dilakukan dengan system pause.
-6. Proses terhubung pada folder file system ketika di run.
+4. Proses dapat meembaca keyboard sebagai input, 1. Previous, 2. Next, 3. List, 4. Exit
+5. Proses terhubung pada folder file system ketika di run.
 
 Cara kerja fuse mp3.c :
 1. file system akan memindahkan semua file reguler berekstensi ".mp3" ke root.
