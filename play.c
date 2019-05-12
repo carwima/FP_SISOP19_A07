@@ -13,8 +13,15 @@
 #include <sys/shm.h>
 #include <dirent.h>
 
-char *queue[1000];
-int k, pstats, input, total;
+struct queue{
+   char file[1000];
+};
+
+struct queue arr[1000];
+
+char c;
+int k, pstats, input, total, screen;
+pthread_t th[4];
 
 //thread 1
 void* kbhit(void *arg){
@@ -38,6 +45,9 @@ void* kbhit(void *arg){
 			case '4':
 				input = 4;
 				break;
+			case '5':
+				input = 5;
+				break;
 			default:
 				input = 0;
 				break;
@@ -50,28 +60,61 @@ void* kbhit(void *arg){
 //thread 2
 void *menu(void *arg){
 	while(1){
+	if(screen==0){
 		system("clear");
-		printf("Now Playing : %s", queue[k]);
-		printf("1. Previous : Press 4\n", queue[k-1]);
-		printf("2. Next : Press 2\n", queue[k+1]);
-		printf("3. Pause : Press 3\n");
+		printf("Now Playing : %s\n", arr[k].file);
+		if(k-1<0) printf("1. Previous : %s\n", arr[total].file);
+		else printf("1. Previous : %s\n", arr[k-1].file);
+		printf("2. Next : %s\n", arr[k+1].file);
+		printf("3. List\n");
+		printf("4. Pause\n");
+		printf("5. Keluar\n");
+		printf("%d  input %c %ds\n",k,c,screen);
 		switch(input){
 		case 1:
 			pstats=1;
+			if(k-1<0) k=total+1;
 			k--;
-			if(k<0) k=total;
 		break;
 		case 2:
 			pstats=1;
 			k++;
 		break;
 		case 3:
-			system("pause");
+			screen=1;
 		break;
 		case 4:
+			system("pause");
+		break;
+		case 5:
 			exit(0);
 		break;
 		}
+		input=0;
+	}
+		sleep(1);
+	}
+}
+
+void *list(void *arg){
+	while(1){
+	if(screen==1){
+		system("clear");
+		int a;
+		for(a=0;a<=total;a++){
+			int f=a+1;
+			printf("%d. %s\n",f,arr[a].file);
+		}
+		printf("\n1. Menu awal\n");
+		printf("%d  input %c\n",k,c);
+		switch(input){
+		case 1:
+			screen=0;
+		break;
+		}
+		input=0;
+	}
+		sleep(1);
 	}
 }
 
@@ -100,7 +143,7 @@ void *play(void *arg){
 		buffer = (unsigned char*) malloc(buffer_size * sizeof(unsigned char));
 
 		/* open the file and get the decoding format */
-		mpg123_open(mh, queue[k]);
+		mpg123_open(mh, arr[k].file);
 		mpg123_getformat(mh, &rate, &channels, &encoding);
 
 		/* set the output format and open the output device */
@@ -126,6 +169,16 @@ void *play(void *arg){
 }
 
 //init
+/*
+void debug(){
+	queue[0]="/home/carwima/FP/mp3/Samsung GALAXY S4 Alarms - Morning Flower.mp3";
+	queue[1]="/home/carwima/FP/mp3/Morning Flower.mp3";
+	total=2;
+	k=0;
+	screen=0;
+}
+*/
+
 void dir_to_queue(){
 	k=0;
 	DIR *dir;
@@ -137,7 +190,7 @@ void dir_to_queue(){
 			char path[1000];
 			strcpy(path, "/home/carwima/FP/mp3/");
 		        strcat(path, ent->d_name);
-			strcpy(queue[0],path);
+			strcpy(arr[k].file,path);
 			k++;
 		}
 	      }
@@ -149,10 +202,12 @@ void dir_to_queue(){
 
 int main(){
 	dir_to_queue();
+//	debug();
 	pthread_create( &th[0], NULL, kbhit, NULL);
 	pthread_create( &th[1], NULL, menu, NULL);
 	pthread_create( &th[2], NULL, play, NULL);
+	pthread_create( &th[3], NULL, list, NULL);
 	int i;
-	for(i=0; i<=3;i++) pthread_join(th[0],NULL);
+	for(i=0; i<4;i++) pthread_join(th[0],NULL);
     return 0;
 }
