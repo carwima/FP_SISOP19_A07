@@ -65,7 +65,8 @@ void *menu(void *arg){
 		printf("Now Playing : %s\n", arr[k].file);
 		if(k-1<0) printf("1. Previous : %s\n", arr[total].file);
 		else printf("1. Previous : %s\n", arr[k-1].file);
-		printf("2. Next : %s\n", arr[k+1].file);
+		if(k+1>total) printf("2. Next : %s\n", arr[0].file);
+		else printf("2. Next : %s\n", arr[k+1].file);
 		printf("3. List\n");
 		printf("4. Pause\n");
 		printf("5. Keluar\n");
@@ -78,13 +79,14 @@ void *menu(void *arg){
 		break;
 		case 2:
 			pstats=1;
+			if(k+1>total) k=-1;
 			k++;
 		break;
 		case 3:
 			screen=1;
 		break;
 		case 4:
-			system("pause");
+			system("PAUSE");
 		break;
 		case 5:
 			exit(0);
