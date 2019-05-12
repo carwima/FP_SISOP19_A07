@@ -45,9 +45,6 @@ void* kbhit(void *arg){
 			case '4':
 				input = 4;
 				break;
-			case '5':
-				input = 5;
-				break;
 			default:
 				input = 0;
 				break;
@@ -68,8 +65,7 @@ void *menu(void *arg){
 		if(k+1>total) printf("2. Next : %s\n", arr[0].file);
 		else printf("2. Next : %s\n", arr[k+1].file);
 		printf("3. List\n");
-		printf("4. Pause\n");
-		printf("5. Keluar\n");
+		printf("4. Keluar\n");
 		printf("%d  input %c %ds\n",k,c,screen);
 		switch(input){
 		case 1:
@@ -86,9 +82,6 @@ void *menu(void *arg){
 			screen=1;
 		break;
 		case 4:
-			system("PAUSE");
-		break;
-		case 5:
 			exit(0);
 		break;
 		}
